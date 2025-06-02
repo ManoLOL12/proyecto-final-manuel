@@ -1,47 +1,27 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { ref } from 'vue';
+
+const newMember = ref("")
+const crew = ref(["Adonay", "Alberto", "Manuel", "Marcos", "Paloma", "Raquel"])
+
+function addMember(){
+  crew.value.push(newMember.value)
+  newMember.value = ""
+}
+
+function removeLast(){
+  crew.value.pop()
+}
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <section>
+    <h1>Tripulación</h1>
+    <input  @keyup.enter="addMember" v-model="newMember" placeholder="Nuevo miembro" />
+    <button @click="addMember">Añadir</button>
+    <ul>
+      <li v-for="member in crew">{{ member }}</li>
+    </ul>
+    <button @click="removeLast">Eliminar último</button>
+  </section>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
