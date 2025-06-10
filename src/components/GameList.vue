@@ -40,7 +40,7 @@ const completeGame = (index) => {
 }
 </script>
 
-<style scoped>
+<style>
 ul {
   list-style-type: none;
   padding: 0;
@@ -76,7 +76,7 @@ li button:hover {
 }
 
 li span {
-  color: #838B93;
+  color: #D7D2D4;
   font-style: italic;
   margin-left: 10px;
 }

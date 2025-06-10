@@ -1,52 +1,11 @@
 <template>
   <div id="app">
-    <h1>Lista de Videojuegos</h1>
-    <GameForm 
-      @add-game="addGame" 
-      :game-to-edit="gameToEdit" 
-      @edit-game="editGame" 
-    />
-    <GameList 
-      :games="games" 
-      @delete-game="deleteGame" 
-      @edit-game="prepareEditGame" 
-      @complete-game="completeGame"
-    />
+    <router-view />
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import GameForm from './components/GameForm.vue'
-import GameList from './components/GameList.vue'
-
-const games = ref([])
-const gameToEdit = ref(null)
-
-const addGame = (game) => {
-  games.value.push(game)
-}
-
-const deleteGame = (index) => {
-  games.value.splice(index, 1)
-}
-
-const prepareEditGame = ({ index, game }) => {
-  gameToEdit.value = { ...game, index }
-}
-
-const editGame = (editedGame) => {
-  if (gameToEdit.value) {
-    games.value.splice(gameToEdit.value.index, 1, editedGame)
-    gameToEdit.value = null
-  }
-}
-
-const completeGame = (index) => {
-  const game = games.value[index]
-  game.completed = true
-  game.completionDate = new Date().toLocaleDateString()
-}
 </script>
 
 <style>

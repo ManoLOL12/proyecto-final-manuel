@@ -63,7 +63,7 @@ const resetForm = () => {
 const emit = defineEmits(['add-game', 'edit-game'])
 </script>
 
-<style scoped>
+<style>
 form {
   display: flex;
   flex-direction: column;
