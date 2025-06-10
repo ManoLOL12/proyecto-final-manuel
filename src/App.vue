@@ -1,27 +1,59 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useStorage } from '@vueuse/core';
+import NewTaskForm from '@/components/NewTaskForm.vue';
+import StatusBar from '@/components/StatusBar.vue';
+import TaskList from '@/components/TaskList.vue';
 
-const newMember = ref("")
-const crew = ref(["Adonay", "Alberto", "Manuel", "Marcos", "Paloma", "Raquel"])
-
-function addMember(){
-  crew.value.push(newMember.value)
-  newMember.value = ""
+function generateId() {
+  return Math.random().toString(36).substr(2, 8); 
 }
 
-function removeLast(){
-  crew.value.pop()
+
+const tasks = useStorage("tasks", [
+  {id: "xxx", done: true, text: "Mi primera tarea"},
+  {id: "yyy", done: false, text: "Mi segunda tarea"},
+  {id: "zzz", done: true, text: "Mi tercera tarea"},
+])
+
+const completed = computed(() => tasks.value.filter(item => item.done))
+const incompleted = computed(() => tasks.value.filter(item => !item.done))
+
+function addNewTask(task){
+  const taskObject = {
+    id: generateId(),
+    done: false,
+    text: task
+  }
+  tasks.value.push(taskObject)
 }
+
+function removeCompleted(){
+  tasks.value = incompleted.value
+  //completed.value.forEach(item =>removeItem(item.id))
+}
+
+function removeItem(id){
+  const index = tasks.value.findIndex(item => item.id === id)
+  if (index === -1) return
+  tasks.value.splice(index, 1)
+}
+
 </script>
-
 <template>
-  <section>
-    <h1>Tripulación</h1>
-    <input  @keyup.enter="addMember" v-model="newMember" placeholder="Nuevo miembro" />
-    <button @click="addMember">Añadir</button>
-    <ul>
-      <li v-for="member in crew">{{ member }}</li>
-    </ul>
-    <button @click="removeLast">Eliminar último</button>
-  </section>
+<div class="container">
+
+  <div class="todo-app">
+    <h2>TODO LIST</h2>
+    <NewTaskForm @onNewTask="addNewTask" />
+    
+    <TaskList :tasks="tasks" @remove="removeItem" />
+    
+    <footer v-if="tasks.length > 0">
+      <StatusBar :completed="completed.length" :total="tasks.length"></StatusBar>
+      <button :disabled="completed.length ===0" class="btn" @click="removeCompleted">Borrar completadas</button>
+  </footer>
+</div>
+</div>
+
 </template>
