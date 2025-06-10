@@ -10,7 +10,7 @@
   <div>
     <router-link to="/" class="btn-back-home">Volver al Home</router-link>
   </div>
-  
+
 </template>
 
 <script setup>
@@ -35,7 +35,7 @@ const completeGame = (index) => {
 }
 </script>
 
-<style scoped>
+<style>
 h1 {
   color: #D7D2D4;
   text-align: center;
@@ -53,5 +53,19 @@ button {
 
 button:hover {
   background-color: #838B93;
+}
+
+.btn-back-home {
+  display: inline-block;
+  background-color: #3C4453;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.btn-back-home:hover {
+  background-color: #D42829;
 }
 </style>
