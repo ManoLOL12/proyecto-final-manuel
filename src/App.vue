@@ -1,59 +1,133 @@
-<script setup>
-import { computed, ref } from 'vue';
-import { useStorage } from '@vueuse/core';
-import NewTaskForm from '@/components/NewTaskForm.vue';
-import StatusBar from '@/components/StatusBar.vue';
-import TaskList from '@/components/TaskList.vue';
-
-function generateId() {
-  return Math.random().toString(36).substr(2, 8); 
-}
-
-
-const tasks = useStorage("tasks", [
-  {id: "xxx", done: true, text: "Mi primera tarea"},
-  {id: "yyy", done: false, text: "Mi segunda tarea"},
-  {id: "zzz", done: true, text: "Mi tercera tarea"},
-])
-
-const completed = computed(() => tasks.value.filter(item => item.done))
-const incompleted = computed(() => tasks.value.filter(item => !item.done))
-
-function addNewTask(task){
-  const taskObject = {
-    id: generateId(),
-    done: false,
-    text: task
-  }
-  tasks.value.push(taskObject)
-}
-
-function removeCompleted(){
-  tasks.value = incompleted.value
-  //completed.value.forEach(item =>removeItem(item.id))
-}
-
-function removeItem(id){
-  const index = tasks.value.findIndex(item => item.id === id)
-  if (index === -1) return
-  tasks.value.splice(index, 1)
-}
-
-</script>
 <template>
-<div class="container">
-
-  <div class="todo-app">
-    <h2>TODO LIST</h2>
-    <NewTaskForm @onNewTask="addNewTask" />
-    
-    <TaskList :tasks="tasks" @remove="removeItem" />
-    
-    <footer v-if="tasks.length > 0">
-      <StatusBar :completed="completed.length" :total="tasks.length"></StatusBar>
-      <button :disabled="completed.length ===0" class="btn" @click="removeCompleted">Borrar completadas</button>
-  </footer>
-</div>
-</div>
-
+  <div id="app">
+    <h1>Lista de Videojuegos</h1>
+    <GameForm 
+      @add-game="addGame" 
+      :game-to-edit="gameToEdit" 
+      @edit-game="editGame" 
+    />
+    <GameList 
+      :games="games" 
+      @delete-game="deleteGame" 
+      @edit-game="prepareEditGame" 
+      @complete-game="completeGame"
+    />
+  </div>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+import GameForm from './components/GameForm.vue'
+import GameList from './components/GameList.vue'
+
+const games = ref([])
+const gameToEdit = ref(null)
+
+const addGame = (game) => {
+  games.value.push(game)
+}
+
+const deleteGame = (index) => {
+  games.value.splice(index, 1)
+}
+
+const prepareEditGame = ({ index, game }) => {
+  gameToEdit.value = { ...game, index }
+}
+
+const editGame = (editedGame) => {
+  if (gameToEdit.value) {
+    games.value.splice(gameToEdit.value.index, 1, editedGame)
+    gameToEdit.value = null
+  }
+}
+
+const completeGame = (index) => {
+  const game = games.value[index]
+  game.completed = true
+  game.completionDate = new Date().toLocaleDateString()
+}
+</script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+
+body {
+  font-family: 'Pixelify Sans', sans-serif;
+  margin: 40px;
+  background-color: #3C4453; /* Fondo principal */
+  color: #D7D2D4; /* Texto principal */
+}
+
+h1 {
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #D7D2D4; /* Color del título */
+}
+
+button {
+  background-color: #D42829; /* Fondo de botones */
+  color: #D7D2D4; /* Texto de los botones */
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #838B93; /* Hover en botones */
+}
+
+button:disabled {
+  background-color: #A6A5A1; /* Estado deshabilitado de botones */
+  cursor: not-allowed;
+}
+
+form input {
+  background-color: #767679; /* Fondo de inputs */
+  border: 1px solid #838B93; /* Borde de los inputs */
+  color: #D7D2D4; /* Color de texto */
+  padding: 8px 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  width: 100%;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  background-color: #767679; /* Fondo de cada item de la lista */
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+li span {
+  font-size: 14px;
+  color: #838B93; /* Color de la fecha de finalización */
+}
+
+li strong {
+  font-size: 16px;
+}
+
+li button {
+  font-size: 12px;
+}
+
+li span {
+  color: #838B93;
+  margin-top: 5px;
+  font-style: italic;
+}
+</style>
