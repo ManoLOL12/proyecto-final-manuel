@@ -8,8 +8,7 @@
 import GameForm from '../components/GameForm.vue'
 </script>
 
-<style scoped>
-/* Estilos para la página de editar juego */
+<style>
 .edit-game-page {
   margin-top: 20px;
 }

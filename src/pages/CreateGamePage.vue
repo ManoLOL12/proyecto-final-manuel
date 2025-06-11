@@ -2,19 +2,21 @@
   <div class="create-game-page">
     <GameForm />
   </div>
+  <div class="create-game-page">
+    <router-link to="/games" class="button">Ver lista de juegos</router-link>
+  </div>
 </template>
 
 <script setup>
 import GameForm from '../components/GameForm.vue'
 </script>
 
-<style scoped>
-/* Estilos para la página de creación de juegos */
+<style>
 .create-game-page {
   padding: 20px;
   background-color: #3C4453;
   border-radius: 10px;
-  color: white;
+  color: #D7D2D4;
   text-align: center;
 }
 

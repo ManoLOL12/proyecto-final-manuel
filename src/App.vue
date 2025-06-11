@@ -14,20 +14,20 @@ import { ref } from 'vue'
 body {
   font-family: 'Pixelify Sans', sans-serif;
   margin: 40px;
-  background-color: #3C4453; /* Fondo principal */
-  color: #D7D2D4; /* Texto principal */
+  background-color: #3C4453;
+  color: #D7D2D4;
 }
 
 h1 {
   font-size: 36px;
   text-align: center;
   margin-bottom: 20px;
-  color: #D7D2D4; /* Color del título */
+  color: #D7D2D4;
 }
 
 button {
-  background-color: #D42829; /* Fondo de botones */
-  color: #D7D2D4; /* Texto de los botones */
+  background-color: #D42829; 
+  color: #D7D2D4;
   border: none;
   padding: 10px 20px;
   font-size: 14px;
@@ -38,18 +38,18 @@ button {
 }
 
 button:hover {
-  background-color: #838B93; /* Hover en botones */
+  background-color: #838B93; 
 }
 
 button:disabled {
-  background-color: #A6A5A1; /* Estado deshabilitado de botones */
+  background-color: #A6A5A1;
   cursor: not-allowed;
 }
 
 form input {
-  background-color: #767679; /* Fondo de inputs */
-  border: 1px solid #838B93; /* Borde de los inputs */
-  color: #D7D2D4; /* Color de texto */
+  background-color: #767679; 
+  border: 1px solid #838B93; 
+  color: #D7D2D4; 
   padding: 8px 10px;
   margin: 10px 0;
   border-radius: 5px;
@@ -62,7 +62,7 @@ ul {
 }
 
 li {
-  background-color: #767679; /* Fondo de cada item de la lista */
+  background-color: #767679;
   margin: 10px 0;
   padding: 15px;
   border-radius: 5px;
@@ -73,7 +73,7 @@ li {
 
 li span {
   font-size: 14px;
-  color: #838B93; /* Color de la fecha de finalización */
+  color: #838B93; 
 }
 
 li strong {

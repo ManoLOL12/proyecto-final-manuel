@@ -6,14 +6,14 @@
       <input v-model="game.category" placeholder="Categoría" required />
       <input v-model="game.metacriticScore" type="number" placeholder="Puntuación de Metacritic" required />
       <input v-model="game.playtime" type="number" placeholder="Tiempo de juego (horas)" required />
-      <button type="submit">{{ isEditMode ? 'Actualizar Juego' : 'Crear Juego' }}</button>
+      <button type="submit" class="button">{{ isEditMode ? 'Actualizar Juego' : 'Crear Juego' }}</button>
     </form>
 
     <div v-if="isEditMode">
-      <button @click="handleDelete" class="btn-delete">Eliminar Juego</button>
+      <button @click="handleDelete" class="button">Eliminar Juego</button>
     </div>
 
-    <router-link to="/" class="btn-back-home">Volver al Home</router-link>
+    <router-link to="/" class="button">Volver al Home</router-link>
   </div>
 </template>
 
@@ -26,10 +26,8 @@ const gameStore = useGameStore()
 const route = useRoute()
 const router = useRouter()
 
-// Determinamos si estamos en modo edición o no
 const isEditMode = ref(!!route.params.id)
 
-// Juego que se está creando o editando
 const game = ref({
   name: '',
   category: '',
@@ -37,7 +35,6 @@ const game = ref({
   playtime: ''
 })
 
-// Si estamos editando un juego, cargamos los datos del juego desde el store
 watchEffect(() => {
   if (isEditMode.value) {
     const gameToEdit = gameStore.games.find(game => game.id == route.params.id)
@@ -49,10 +46,8 @@ watchEffect(() => {
 
 function handleSubmit() {
   if (isEditMode.value) {
-    // Editar un juego existente
     gameStore.editGame(game.value)
   } else {
-    // Crear un juego nuevo
     const newGame = {
       ...game.value,
       id: Date.now(),
@@ -60,8 +55,6 @@ function handleSubmit() {
     }
     gameStore.addGame(newGame)
   }
-
-  // Redirigimos al listado de juegos después de guardar
   router.push('/games')
 }
 
@@ -73,17 +66,16 @@ function handleDelete() {
 }
 </script>
 
-<style scoped>
-/* Estilos para el formulario */
+<style>
 .game-form {
   padding: 20px;
   background-color: #3C4453;
   border-radius: 10px;
-  color: white;
+  color: #D7D2D4;
 }
 
 input {
-  width: 100%;
+  width: 50%;
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #767679;
@@ -91,44 +83,17 @@ input {
   font-size: 16px;
 }
 
-button {
-  background-color: #D42829;
-  color: white;
-  padding: 10px;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-}
-
-button:hover {
-  background-color: #838B93;
-}
-
-.btn-back-home {
+.button {
   display: inline-block;
-  background-color: #3C4453;
-  color: white;
+  background-color: #D42829;
+  color: #D7D2D4;
   padding: 10px 20px;
   text-decoration: none;
   border-radius: 5px;
   font-size: 16px;
 }
 
-.btn-back-home:hover {
-  background-color: #D42829;
-}
-
-.btn-delete {
-  background-color: #767679;
-  color: white;
-  padding: 10px;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  margin-top: 15px;
-}
-
-.btn-delete:hover {
-  background-color: #D42829;
+.button:hover {
+  background-color: #838B93;
 }
 </style>
