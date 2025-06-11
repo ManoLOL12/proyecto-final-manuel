@@ -1,35 +1,31 @@
 <template>
-  <div class="home">
-    <h1>Bienvenido a Game Ender</h1>
-    <p>Esta aplicación te permite gestionar y llevar un seguimiento de los videojuegos que has jugado, agregar nuevos juegos, editarlos y marcarlos como completados.</p>
-    <p><router-link to="/games" class="btn-back-home">Ver la lista de juegos</router-link></p>
+  <div class="home-page">
+    <h1>Bienvenido a la Todo List de Videojuegos</h1>
+    <p>Explora, crea y organiza tus juegos favoritos.</p>
+    <router-link to="/games">Ver lista de juegos</router-link>
   </div>
 </template>
 
 <script setup>
+// No necesitas ningún script aquí para este ejemplo
 </script>
 
-<style>
-.home {
+<style scoped>
+.home-page {
   text-align: center;
-  margin-top: 50px;
-}
-
-h1 {
-  color: #D7D2D4;
-}
-
-.btn-back-home {
-  display: inline-block;
-  background-color: #3C4453;
+  font-family: 'Arial', sans-serif;
   color: white;
-  padding: 10px 20px;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 16px;
+  background-color: #3C4453;
+  padding: 50px;
+  border-radius: 10px;
 }
 
-.btn-back-home:hover {
-  background-color: #D42829;
+.home-page h1 {
+  font-size: 2.5rem;
+  color: #D42829;
+}
+
+.home-page p {
+  font-size: 1.2rem;
 }
 </style>

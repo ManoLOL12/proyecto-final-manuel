@@ -1,10 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
-// Cargar componentes con lazy loading
-const HomePage = () => import('../pages/HomePage.vue')
-const GameListPage = () => import('../pages/GameListPage.vue')
-const CreateGamePage = () => import('../pages/CreateGamePage.vue')
-const EditGamePage = () => import('../pages/EditGamePage.vue')
+import HomePage from '../pages/HomePage.vue'
+import GameListPage from '../pages/GameListPage.vue'
+import CreateGamePage from '../pages/CreateGamePage.vue'
+import EditGamePage from '../pages/EditGamePage.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -12,27 +10,22 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomePage,
-      meta: { isPublic: true }  // Puedes añadir meta para gestionar rutas públicas
+      component: HomePage
     },
     {
       path: '/games',
       name: 'game-list',
-      component: GameListPage,
-      meta: { isPublic: false }
+      component: GameListPage
     },
     {
-      path: '/create',
+      path: '/create-game',
       name: 'create-game',
-      component: CreateGamePage,
-      meta: { isPublic: false }
+      component: CreateGamePage
     },
     {
-      path: '/edit/:id',
+      path: '/edit-game/:id',
       name: 'edit-game',
-      component: EditGamePage,
-      meta: { isPublic: false },
-      props: true // Permite pasar los params como props
+      component: EditGamePage
     }
   ]
 })
