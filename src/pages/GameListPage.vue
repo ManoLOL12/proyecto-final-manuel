@@ -1,20 +1,49 @@
 <script setup>
-import { computed, onMounted } from 'vue'
-import { useGameStore } from '../stores/gameStore'
+import { ref, onMounted } from 'vue'
+import { supabase } from '@/lib/supabase'
 
-const gameStore = useGameStore()
+const games = ref([])
+const loading = ref(true)
 
-const games = computed(() => {
-  return gameStore.games
-})
+async function loadGames() {
+  loading.value = true
+  const { data, error } = await supabase
+    .from('games')
+    .select('*')
+    .order('secretScore', { ascending: false })
 
-function toggleGameCompletion(gameId) {
-  gameStore.toggleCompletion(gameId)
+  if (!error) {
+    games.value = data
+  } else {
+    console.error('Error al cargar juegos:', error)
+  }
+
+  loading.value = false
 }
 
-onMounted(() => {
-  gameStore.loadGames()
-})
+
+async function toggleCompletion(game) {
+  const updated = {
+    ...game,
+    completed: !game.completed,
+    completionDate: !game.completed
+      ? new Date().toLocaleDateString('es-ES')
+      : ''
+  }
+
+  const { error } = await supabase
+    .from('games')
+    .update(updated)
+    .eq('id', game.id)
+
+  if (!error) {
+    await loadGames()
+  } else {
+    console.error('Error al actualizar juego:', error)
+  }
+}
+
+onMounted(loadGames)
 </script>
 
 <template>

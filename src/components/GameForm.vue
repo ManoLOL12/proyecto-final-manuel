@@ -1,73 +1,82 @@
 <script setup>
-import { ref, watchEffect } from 'vue'
-import { useGameStore } from '../stores/gameStore'
-import { useRoute, useRouter } from 'vue-router'
+import { ref, onMounted, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { supabase } from '@/lib/supabase'
 
-const gameStore = useGameStore()
-const route = useRoute()
+const props = defineProps({
+  gameId: String
+})
+
+const isEditMode = computed(() => !!props.gameId)
 const router = useRouter()
-
-const isEditMode = ref(!!route.params.id)
 
 const game = ref({
   name: '',
   category: '',
   tags: [],
-  metacriticScore: '',
-  playtime: '',
+  metacriticScore: null,
+  playtime: null,
   completed: false,
   completionDate: null
 })
 
 const tagInput = ref('')
 
-watchEffect(() => {
+onMounted(async () => {
   if (isEditMode.value) {
-    const gameToEdit = gameStore.games.find(game => game.id == route.params.id)
-    if (gameToEdit) {
-      game.value = { ...gameToEdit }
-      tagInput.value = Array.isArray(gameToEdit.tags) ? gameToEdit.tags.join(', ') : ''
-    } else {
-      router.push('/games')
+    const { data, error } = await supabase
+      .from('games')
+      .select('*')
+      .eq('id', props.gameId)
+      .single()
+
+    if (error) {
+      console.error('Error al cargar el juego:', error)
+      return router.push('/games')
     }
+    else
+    game.value = data
+    tagInput.value = Array.isArray(data.tags) ? data.tags.join(', ') : ''
   }
 })
 
 function handleCompletionChange() {
-  if (game.value.completed) {
-    const today = new Date()
-    game.value.completionDate = today.toLocaleDateString('es-ES')
-  } else {
-    game.value.completionDate = ''
-  }
+  game.value.completionDate = game.value.completed
+    ? new Date().toLocaleDateString('es-ES')
+    : ''
 }
 
-function handleSubmit() {
-    const tagsArray = tagInput.value
-    .split(',')
-    .map(tag => tag.trim())
-    .filter(tag => tag.length > 0)
-
-    game.value.tags = tagsArray
+async function handleSubmit() {
+  game.value.tags = tagInput.value.split(',').map(tag => tag.trim()).filter(Boolean)
+  game.value.secretScore = game.value.metacriticScore / game.value.playtime
 
   if (isEditMode.value) {
-    gameStore.editGame(game.value)
+    const { error } = await supabase
+      .from('games')
+      .update(game.value)
+      .eq('id', props.gameId)
+
+    if (error) console.error('Error actualizando juego:', error)
   } else {
-    const newGame = {
-      ...game.value,
-      id: Date.now(),
-      completed: false
-    }
-    gameStore.addGame(newGame)
+    const { error } = await supabase
+      .from('games')
+      .insert(game.value)
+
+    if (error) console.error('Error creando juego:', error)
   }
+
   router.push('/games')
 }
 
-function handleDelete() {
-  if (isEditMode.value) {
-    gameStore.deleteGame(game.value.id)
-    router.push('/games')
-  }
+async function handleDelete() {
+  const { error } = await supabase
+    .from('games')
+    .delete()
+    .eq('id', props.gameId)
+
+  if (error) console.error('Error eliminando juego:', error)
+
+  router.push('/games')
 }
 </script>
 
@@ -78,14 +87,17 @@ function handleDelete() {
       <input v-model="game.name" placeholder="Nombre del juego" required />
       <input v-model="game.category" placeholder="Categoría" required />
       <input v-model="tagInput" placeholder="Etiquetas (separadas por comas)" />
-      <input v-model="game.metacriticScore" type="number" placeholder="Puntuación de Metacritic" required />
-      <input v-model="game.playtime" type="number" placeholder="Tiempo de juego (horas)" required />
+      <input v-model="game.metacriticScore" type="number" min="0" max="100" placeholder="Puntuación de Metacritic" required />
+      <input v-model="game.playtime" type="number" min="1" placeholder="Tiempo de juego (horas)" required />
       <button type="submit" class="button">{{ isEditMode ? 'Actualizar Juego' : 'Crear Juego' }}</button>
     </form>
+
     <div v-if="isEditMode">
       <button @click="handleDelete" class="button">Eliminar Juego</button>
     </div>
+
     <router-link to="/games" class="button">Volver</router-link>
+
   </div>
 </template>
 
