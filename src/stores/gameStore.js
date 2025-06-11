@@ -1,13 +1,28 @@
 import { defineStore } from 'pinia'
+import { supabase } from '@/lib/supabase'
 
 export const useGameStore = defineStore('gameStore', {
   state: () => ({
-    games: JSON.parse(localStorage.getItem('games')) || []
+    games: []
   }),
   actions: {
-    addGame(newGame) {
-      this.games.push(newGame)
-      this.saveGames()
+    async addGame(newGame) {
+      delete newGame.id
+      newGame.secretScore = newGame.metacriticScore / newGame.playtime
+      const { data, error } = await supabase
+      .from('games')
+      .insert([
+        newGame
+      ])
+      .select()
+      this.games.push(data[0])
+    },
+      async loadGames() {
+      const { data, error } = await supabase
+      .from('games')
+      .select()
+      .order('secretScore', {ascending: false})
+      this.games = data
     },
     editGame(updatedGame) {
       const index = this.games.findIndex(game => game.id === updatedGame.id)

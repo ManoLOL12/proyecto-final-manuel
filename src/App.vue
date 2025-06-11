@@ -85,8 +85,13 @@ li button {
 }
 
 li span {
-  color: #838B93;
+  color: #D7D2D4;
   margin-top: 5px;
-  font-style: italic;
+}
+
+::placeholder {
+  font-family: 'Pixelify Sans';
+  color: #D7D2D4;
+  opacity: 1; 
 }
 </style>

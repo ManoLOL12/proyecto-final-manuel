@@ -1,22 +1,31 @@
 <script setup>
+import { computed, onMounted } from 'vue'
 import { useGameStore } from '../stores/gameStore'
 
 const gameStore = useGameStore()
 
+const games = computed(() => {
+  return gameStore.games
+})
+
 function toggleGameCompletion(gameId) {
   gameStore.toggleCompletion(gameId)
 }
+
+onMounted(() => {
+  gameStore.loadGames()
+})
 </script>
 
 <template>
   <div class="game-list-page">
     <h1>Tu Lista de Videojuegos</h1>
     <ul>
-      <li v-for="game in gameStore.games" :key="game.id">
+    <li v-for="game in games" :key="game.id"> 
         <div>
           <h2>{{ game.name }}</h2>
           <p>Categoria: {{ game.category }}</p>
-          <p v-if="game.tags && game.tags.length > 0">Etiquetas: <span v-for="(tag, i) in game.tags" :key="i">{{ tag }}</span></p>
+          <p v-if="game.tags && game.tags.length > 0">Etiquetas: {{ game.tags.join(', ') }}</p>
           <p>Puntuación: {{ game.metacriticScore }}</p>
           <p>Tiempo de juego: {{ game.playtime }} horas</p>
           <p v-if="game.completed">Completado el ({{ game.completionDate }})</p>

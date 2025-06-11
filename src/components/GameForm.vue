@@ -16,7 +16,7 @@ const game = ref({
   metacriticScore: '',
   playtime: '',
   completed: false,
-  completionDate: ''
+  completionDate: null
 })
 
 const tagInput = ref('')
@@ -26,7 +26,7 @@ watchEffect(() => {
     const gameToEdit = gameStore.games.find(game => game.id == route.params.id)
     if (gameToEdit) {
       game.value = { ...gameToEdit }
-      tagInput.value = gameToEdit.tags?.join(', ') || ''
+      tagInput.value = Array.isArray(gameToEdit.tags) ? gameToEdit.tags.join(', ') : ''
     } else {
       router.push('/games')
     }
@@ -73,7 +73,7 @@ function handleDelete() {
 
 <template>
   <div class="game-form">
-    <h1>{{ isEditMode ? 'Editar Juego' : 'Crear Juego' }}</h1>
+    <h1>{{ isEditMode ? 'Editar Juego' : 'Añadir Juego' }}</h1>
     <form @submit.prevent="handleSubmit">
       <input v-model="game.name" placeholder="Nombre del juego" required />
       <input v-model="game.category" placeholder="Categoría" required />

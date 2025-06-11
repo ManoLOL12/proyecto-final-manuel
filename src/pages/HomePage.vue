@@ -16,7 +16,7 @@
 .home-page {
   text-align: center;
   font-family: 'Pixelify sans';
-  color: white;
+  color: #D7D2D4;
   background-color: #3C4453;
   padding: 50px;
   border-radius: 10px;
