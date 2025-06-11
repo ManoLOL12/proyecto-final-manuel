@@ -1,21 +1,3 @@
-<template>
-  <div class="game-form">
-    <h1>{{ isEditMode ? 'Editar Juego' : 'Crear Juego' }}</h1>
-    <form @submit.prevent="handleSubmit">
-      <input v-model="game.name" placeholder="Nombre del juego" required />
-      <input v-model="game.category" placeholder="Categoría" required />
-      <input v-model="game.tags" placeholder="Etiquetas" required />
-      <input v-model="game.metacriticScore" type="number" placeholder="Puntuación de Metacritic" required />
-      <input v-model="game.playtime" type="number" placeholder="Tiempo de juego (horas)" required />
-      <button type="submit" class="button">{{ isEditMode ? 'Actualizar Juego' : 'Crear Juego' }}</button>
-    </form>
-    <div v-if="isEditMode">
-      <button @click="handleDelete" class="button">Eliminar Juego</button>
-    </div>
-    <router-link to="/games" class="button">Volver</router-link>
-  </div>
-</template>
-
 <script setup>
 import { ref, watchEffect } from 'vue'
 import { useGameStore } from '../stores/gameStore'
@@ -37,11 +19,14 @@ const game = ref({
   completionDate: ''
 })
 
+const tagInput = ref('')
+
 watchEffect(() => {
   if (isEditMode.value) {
     const gameToEdit = gameStore.games.find(game => game.id == route.params.id)
     if (gameToEdit) {
       game.value = { ...gameToEdit }
+      tagInput.value = gameToEdit.tags?.join(', ') || ''
     } else {
       router.push('/games')
     }
@@ -58,6 +43,13 @@ function handleCompletionChange() {
 }
 
 function handleSubmit() {
+    const tagsArray = tagInput.value
+    .split(',')
+    .map(tag => tag.trim())
+    .filter(tag => tag.length > 0)
+
+    game.value.tags = tagsArray
+
   if (isEditMode.value) {
     gameStore.editGame(game.value)
   } else {
@@ -78,6 +70,24 @@ function handleDelete() {
   }
 }
 </script>
+
+<template>
+  <div class="game-form">
+    <h1>{{ isEditMode ? 'Editar Juego' : 'Crear Juego' }}</h1>
+    <form @submit.prevent="handleSubmit">
+      <input v-model="game.name" placeholder="Nombre del juego" required />
+      <input v-model="game.category" placeholder="Categoría" required />
+      <input v-model="tagInput" placeholder="Etiquetas (separadas por comas)" />
+      <input v-model="game.metacriticScore" type="number" placeholder="Puntuación de Metacritic" required />
+      <input v-model="game.playtime" type="number" placeholder="Tiempo de juego (horas)" required />
+      <button type="submit" class="button">{{ isEditMode ? 'Actualizar Juego' : 'Crear Juego' }}</button>
+    </form>
+    <div v-if="isEditMode">
+      <button @click="handleDelete" class="button">Eliminar Juego</button>
+    </div>
+    <router-link to="/games" class="button">Volver</router-link>
+  </div>
+</template>
 
 <style>
 .game-form {

@@ -1,3 +1,6 @@
+<script setup>
+</script>
+
 <template>
   <div class="home-page">
     <h1>Bienvenido a Game Ender</h1>
@@ -6,9 +9,6 @@
     <router-link to="/games" class="button">Ver lista de juegos</router-link>
   </div>
 </template>
-
-<script setup>
-</script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');

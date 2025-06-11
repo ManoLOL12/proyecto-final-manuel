@@ -1,3 +1,13 @@
+<script setup>
+import { useGameStore } from '../stores/gameStore'
+
+const gameStore = useGameStore()
+
+function toggleGameCompletion(gameId) {
+  gameStore.toggleCompletion(gameId)
+}
+</script>
+
 <template>
   <div class="game-list-page">
     <h1>Tu Lista de Videojuegos</h1>
@@ -6,6 +16,7 @@
         <div>
           <h2>{{ game.name }}</h2>
           <p>Categoria: {{ game.category }}</p>
+          <p v-if="game.tags && game.tags.length > 0">Etiquetas: <span v-for="(tag, i) in game.tags" :key="i">{{ tag }}</span></p>
           <p>Puntuación: {{ game.metacriticScore }}</p>
           <p>Tiempo de juego: {{ game.playtime }} horas</p>
           <p v-if="game.completed">Completado el ({{ game.completionDate }})</p>
@@ -20,16 +31,6 @@
     <router-link to="/" class="button">Volver al Inicio</router-link>
   </div>
 </template>
-
-<script setup>
-import { useGameStore } from '../stores/gameStore'
-
-const gameStore = useGameStore()
-
-function toggleGameCompletion(gameId) {
-  gameStore.toggleCompletion(gameId)
-}
-</script>
 
 <style>
 .game-list-page {

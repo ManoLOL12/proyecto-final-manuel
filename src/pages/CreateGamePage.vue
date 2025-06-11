@@ -1,12 +1,12 @@
+<script setup>
+import GameForm from '../components/GameForm.vue'
+</script>
+
 <template>
   <div class="create-game-page">
     <GameForm />
   </div>
 </template>
-
-<script setup>
-import GameForm from '../components/GameForm.vue'
-</script>
 
 <style>
 .create-game-page {
