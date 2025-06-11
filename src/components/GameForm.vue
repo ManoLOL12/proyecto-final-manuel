@@ -1,19 +1,18 @@
 <template>
   <div class="game-form">
-    <h2>{{ isEditMode ? 'Editar Juego' : 'Crear Juego' }}</h2>
+    <h1>{{ isEditMode ? 'Editar Juego' : 'Crear Juego' }}</h1>
     <form @submit.prevent="handleSubmit">
       <input v-model="game.name" placeholder="Nombre del juego" required />
       <input v-model="game.category" placeholder="Categoría" required />
+      <input v-model="game.tags" placeholder="Etiquetas" required />
       <input v-model="game.metacriticScore" type="number" placeholder="Puntuación de Metacritic" required />
       <input v-model="game.playtime" type="number" placeholder="Tiempo de juego (horas)" required />
       <button type="submit" class="button">{{ isEditMode ? 'Actualizar Juego' : 'Crear Juego' }}</button>
     </form>
-
     <div v-if="isEditMode">
       <button @click="handleDelete" class="button">Eliminar Juego</button>
     </div>
-
-    <router-link to="/" class="button">Volver al Home</router-link>
+    <router-link to="/games" class="button">Volver</router-link>
   </div>
 </template>
 
@@ -31,8 +30,11 @@ const isEditMode = ref(!!route.params.id)
 const game = ref({
   name: '',
   category: '',
+  tags: [],
   metacriticScore: '',
-  playtime: ''
+  playtime: '',
+  completed: false,
+  completionDate: ''
 })
 
 watchEffect(() => {
@@ -40,9 +42,20 @@ watchEffect(() => {
     const gameToEdit = gameStore.games.find(game => game.id == route.params.id)
     if (gameToEdit) {
       game.value = { ...gameToEdit }
+    } else {
+      router.push('/games')
     }
   }
 })
+
+function handleCompletionChange() {
+  if (game.value.completed) {
+    const today = new Date()
+    game.value.completionDate = today.toLocaleDateString('es-ES')
+  } else {
+    game.value.completionDate = ''
+  }
+}
 
 function handleSubmit() {
   if (isEditMode.value) {
@@ -72,6 +85,10 @@ function handleDelete() {
   background-color: #3C4453;
   border-radius: 10px;
   color: #D7D2D4;
+}
+
+.game-form h1 {
+  color: #D7D2D4
 }
 
 input {

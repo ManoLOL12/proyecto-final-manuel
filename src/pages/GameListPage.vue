@@ -8,8 +8,11 @@
           <p>Categoria: {{ game.category }}</p>
           <p>Puntuación: {{ game.metacriticScore }}</p>
           <p>Tiempo de juego: {{ game.playtime }} horas</p>
-          <p v-if="game.completed">Completado: Sí ({{ game.completionDate }})</p>
+          <p v-if="game.completed">Completado el ({{ game.completionDate }})</p>
           <router-link :to="`/edit-game/${game.id}`" class="button">Editar</router-link>
+          <button @click="toggleGameCompletion(game.id)" class="button">
+            {{ game.completed ? 'Marcar como incompleto' : 'Marcar como completado' }}
+          </button>
         </div>
       </li>
     </ul>
@@ -22,6 +25,10 @@
 import { useGameStore } from '../stores/gameStore'
 
 const gameStore = useGameStore()
+
+function toggleGameCompletion(gameId) {
+  gameStore.toggleCompletion(gameId)
+}
 </script>
 
 <style>
@@ -50,9 +57,10 @@ const gameStore = useGameStore()
 }
 
 .button {
+  font-family: 'Pixelify sans';
   display: inline-block;
   background-color: #D42829;
-  color: white;
+  color: #D7D2D4;
   padding: 10px 20px;
   text-decoration: none;
   border-radius: 5px;

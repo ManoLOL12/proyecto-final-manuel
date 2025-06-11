@@ -22,6 +22,16 @@ export const useGameStore = defineStore('gameStore', {
     },
     saveGames() {
       localStorage.setItem('games', JSON.stringify(this.games))
+    },
+    toggleCompletion(gameId) {
+      const game = this.games.find(g => g.id === gameId)
+      if (game) {
+        game.completed = !game.completed
+        game.completionDate = game.completed
+        ? new Date().toLocaleDateString('es-ES')
+        : ''
+        this.saveGames()
+      }
     }
   }
 })

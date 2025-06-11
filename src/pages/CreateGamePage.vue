@@ -2,9 +2,6 @@
   <div class="create-game-page">
     <GameForm />
   </div>
-  <div class="create-game-page">
-    <router-link to="/games" class="button">Ver lista de juegos</router-link>
-  </div>
 </template>
 
 <script setup>
