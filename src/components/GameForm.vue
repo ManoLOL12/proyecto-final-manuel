@@ -35,9 +35,17 @@ onMounted(async () => {
       console.error('Error al cargar el juego:', error)
       return router.push('/games')
     }
-    else
+    
     game.value = data
     tagInput.value = Array.isArray(data.tags) ? data.tags.join(', ') : ''
+
+    if (game.value.completionDate) {
+    const d = new Date(game.value.completionDate)
+    const yyyy = d.getFullYear()
+    const mm = String(d.getMonth() + 1).padStart(2, '0')
+    const dd = String(d.getDate()).padStart(2, '0')
+    game.value.completionDate = `${yyyy}-${mm}-${dd}`
+    }
   }
 })
 
@@ -90,6 +98,10 @@ async function handleDelete() {
       <input v-model="tagInput" placeholder="Etiquetas (separadas por comas)" />
       <input v-model="game.metacriticScore" type="number" min="0" max="100" placeholder="Puntuación de Metacritic" required />
       <input v-model="game.playtime" type="number" min="1" placeholder="Tiempo de juego (horas)" required />
+      <div v-if="isEditMode && game.completed">
+        <label>Fecha de finalización:</label>
+        <input v-model="game.completionDate" type="date" />
+      </div>
       <div v-if="game.completed">
         <label>Puntuación final:</label>
         <input v-model.number="game.finalScore" type="number" min="0" max="10" placeholder="Valoración del 0 al 10" required />
