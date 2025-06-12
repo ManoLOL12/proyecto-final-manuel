@@ -13,8 +13,12 @@ const gameId = computed(() => route.params.id)
   </div>
 </template>
 
-<style>
+<style scoped>
 .edit-game-page {
-  margin-top: 20px;
+  padding: 20px;
+  background-color: #3C4453;
+  border-radius: 10px;
+  color: #D7D2D4;
+  text-align: center;
 }
 </style>

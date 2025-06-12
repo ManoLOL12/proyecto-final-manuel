@@ -93,18 +93,48 @@ async function handleDelete() {
   <div class="game-form">
     <h1>{{ isEditMode ? 'Editar Juego' : 'Añadir Juego' }}</h1>
     <form @submit.prevent="handleSubmit">
-      <input v-model="game.name" placeholder="Nombre del juego" required />
-      <input v-model="game.category" placeholder="Categoría" required />
-      <input v-model="tagInput" placeholder="Etiquetas (separadas por comas)" />
-      <input v-model="game.metacriticScore" type="number" min="0" max="100" placeholder="Puntuación de Metacritic" required />
-      <input v-model="game.playtime" type="number" min="1" placeholder="Tiempo de juego (horas)" required />
+      <div>      
+        <label>Nombre</label>
+        <div>
+          <input v-model="game.name" placeholder="Nombre del juego" required />
+        </div>
+      </div>
+      <div>      
+        <label>Categoría</label>
+        <div>
+          <input v-model="game.category" placeholder="Categoría" required />
+        </div>
+      </div>
+      <div>      
+        <label>Etiquetas</label>
+        <div>
+          <input v-model="tagInput" placeholder="Etiquetas (separadas por comas)" />
+        </div>
+      </div>
+      <div>      
+        <label>Puntuación en Metacritic</label>
+        <div>
+          <input v-model="game.metacriticScore" type="number" min="0" max="100" placeholder="Puntuación de Metacritic" required />
+        </div>
+      </div>
+      <div>      
+        <label>Duración (en horas)</label>
+        <div>
+          <input v-model="game.playtime" type="number" min="1" placeholder="Tiempo de juego (horas)" required />
+        </div>
+      </div>
+
       <div v-if="isEditMode && game.completed">
-        <label>Fecha de finalización:</label>
-        <input v-model="game.completionDate" type="date" />
+        <label>Fecha de finalización</label>
+        <div>
+          <input v-model="game.completionDate" type="date" />
+        </div>
       </div>
       <div v-if="game.completed">
-        <label>Puntuación final:</label>
-        <input v-model.number="game.finalScore" type="number" min="0" max="10" placeholder="Valoración del 0 al 10" required />
+        <label>Valoración</label>
+        <div>
+          <input v-model.number="game.finalScore" type="number" min="0" max="10" placeholder="Valoración del 0 al 10" required />
+        </div>
       </div>
       <div class="centered">      
         <button type="submit" class="button">{{ isEditMode ? 'Actualizar Juego' : 'Crear Juego' }}</button>
@@ -117,7 +147,6 @@ async function handleDelete() {
 
 <style>
 .game-form {
-  padding: 20px;
   background-color: #3C4453;
   border-radius: 10px;
   color: #D7D2D4;
@@ -128,7 +157,7 @@ async function handleDelete() {
 }
 
 input {
-  width: 50%;
+  max-width: 75%;
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #767679;

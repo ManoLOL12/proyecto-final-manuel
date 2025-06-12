@@ -99,6 +99,7 @@ li span {
   border-radius: 5px;
   font-size: 16px;
   margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 .button:hover {
@@ -113,5 +114,9 @@ li span {
 
 .centered {
   text-align: center;
+}
+
+label {
+  text-align: left;
 }
 </style>

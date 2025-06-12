@@ -18,7 +18,7 @@
   font-family: 'Pixelify sans';
   color: #D7D2D4;
   background-color: #3C4453;
-  padding: 50px;
+  padding: 20px;
   border-radius: 10px;
 }
 
@@ -37,7 +37,7 @@
 }
 
 .logo {
-  height: 10rem;
+  height: 8rem;
   vertical-align: middle;
 }
 

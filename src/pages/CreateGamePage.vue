@@ -10,7 +10,6 @@ import GameForm from '../components/GameForm.vue'
 
 <style scoped>
 .create-game-page {
-  padding: 20px;
   background-color: #3C4453;
   border-radius: 10px;
   color: #D7D2D4;

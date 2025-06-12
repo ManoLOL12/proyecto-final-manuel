@@ -79,19 +79,21 @@ onMounted(loadGames)
         <h2 class="centered">Por Completar</h2>
         <ul>
           <li v-for="game in pendingGames" :key="game.id">
-            <div>
-              <h3>{{ game.name }}</h3>
+              <h3 class="centered">{{ game.name }}</h3>
               <p>Categoria: {{ game.category }}</p>
               <p v-if="game.tags && game.tags.length > 0">Etiquetas: {{ game.tags.join(', ') }}</p>
               <p>Metacritic: {{ game.metacriticScore }}</p>
               <p>Tiempo de juego: {{ game.playtime }} horas</p>
               <p v-if="game.completed && game.finalScore !== null">Puntuación final: {{ game.finalScore }}/10</p>
               <p v-if="game.completed">Completado el ({{ formatDate(game.completionDate) }})</p>
-              <router-link :to="`/edit-game/${game.id}`" class="button">Editar</router-link>
-              <button @click="toggleGameCompletion(game.id)" class="button">
-                {{ game.completed ? 'Marcar como incompleto' : 'Marcar como completado' }}
-              </button>
-            </div>
+              <div class="centered">
+                <router-link :to="`/edit-game/${game.id}`" class="button">Editar</router-link>
+              </div>
+              <div class="centered">
+                <button @click="toggleGameCompletion(game.id)" class="button">
+                  {{ game.completed ? 'Marcar como incompleto' : 'Marcar como completado' }}
+                </button>
+              </div>
           </li>
         </ul>
       </div>
@@ -100,19 +102,21 @@ onMounted(loadGames)
         <h2 class="centered">Completados</h2>
         <ul class="">
           <li v-for="game in completedGames" :key="game.id">
-            <div>
-              <h3>{{ game.name }}</h3>
+              <h3 class="centered">{{ game.name }}</h3>
               <p>Categoria: {{ game.category }}</p>
               <p v-if="game.tags && game.tags.length > 0">Etiquetas: {{ game.tags.join(', ') }}</p>
               <p>Metacritic: {{ game.metacriticScore }}</p>
               <p>Tiempo de juego: {{ game.playtime }} horas</p>
               <p v-if="game.completed && game.finalScore !== null">Puntuación final: {{ game.finalScore }}/10</p>
               <p v-if="game.completed">Completado el ({{ formatDate(game.completionDate) }})</p>
-              <router-link :to="`/edit-game/${game.id}`" class="button">Editar</router-link>
+              <div class="centered">
+                <router-link :to="`/edit-game/${game.id}`" class="button">Editar</router-link>
+              </div>
+              <div class="centered">
               <button @click="toggleGameCompletion(game.id)" class="button">
                 {{ game.completed ? 'Marcar como incompleto' : 'Marcar como completado' }}
               </button>
-            </div>
+              </div>
           </li>
         </ul>
       </div>
@@ -145,6 +149,14 @@ onMounted(loadGames)
   border-radius: 8px;
   width: 100%;
   box-sizing: border-box;
+  display: block;
+}
+
+.game-list-page p {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
 }
 
 h2 {
