@@ -17,7 +17,8 @@ const game = ref({
   metacriticScore: null,
   playtime: null,
   completed: false,
-  completionDate: null
+  completionDate: null,
+  finalScore: null
 })
 
 const tagInput = ref('')
@@ -89,6 +90,10 @@ async function handleDelete() {
       <input v-model="tagInput" placeholder="Etiquetas (separadas por comas)" />
       <input v-model="game.metacriticScore" type="number" min="0" max="100" placeholder="Puntuación de Metacritic" required />
       <input v-model="game.playtime" type="number" min="1" placeholder="Tiempo de juego (horas)" required />
+      <div v-if="game.completed">
+        <label>Puntuación final:</label>
+        <input v-model.number="game.finalScore" type="number" min="0" max="10" placeholder="Valoración del 0 al 10" required />
+      </div>
       <button type="submit" class="button">{{ isEditMode ? 'Actualizar Juego' : 'Crear Juego' }}</button>
     </form>
 

@@ -23,12 +23,13 @@ async function loadGames() {
 
 
 async function toggleCompletion(game) {
+  const newCompleted = !game.completed
+
   const updated = {
-    ...game,
-    completed: !game.completed,
-    completionDate: !game.completed
-      ? new Date().toLocaleDateString('es-ES')
-      : ''
+    completed: newCompleted,
+    completionDate: newCompleted
+      ? new Date().toISOString().split('T')[0]
+      : null
   }
 
   const { error } = await supabase
@@ -41,6 +42,17 @@ async function toggleCompletion(game) {
   } else {
     console.error('Error al actualizar juego:', error)
   }
+}
+
+function toggleGameCompletion(id) {
+  const game = games.value.find(g => g.id === id)
+  if (!game) return
+  toggleCompletion(game)
+}
+
+function formatDate(isoDate) {
+  const date = new Date(isoDate)
+  return date.toLocaleDateString('es-ES')
 }
 
 onMounted(loadGames)
@@ -57,7 +69,8 @@ onMounted(loadGames)
           <p v-if="game.tags && game.tags.length > 0">Etiquetas: {{ game.tags.join(', ') }}</p>
           <p>Puntuación: {{ game.metacriticScore }}</p>
           <p>Tiempo de juego: {{ game.playtime }} horas</p>
-          <p v-if="game.completed">Completado el ({{ game.completionDate }})</p>
+          <p v-if="game.completed && game.finalScore !== null">Puntuación final: {{ game.finalScore }}/10</p>
+          <p v-if="game.completed">Completado el ({{ formatDate(game.completionDate) }})</p>
           <router-link :to="`/edit-game/${game.id}`" class="button">Editar</router-link>
           <button @click="toggleGameCompletion(game.id)" class="button">
             {{ game.completed ? 'Marcar como incompleto' : 'Marcar como completado' }}
