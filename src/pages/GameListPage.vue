@@ -80,39 +80,39 @@ onMounted(loadGames)
         <ul>
           <li v-for="game in pendingGames" :key="game.id">
             <div>
-          <h3>{{ game.name }}</h3>
-          <p>Categoria: {{ game.category }}</p>
-          <p v-if="game.tags && game.tags.length > 0">Etiquetas: {{ game.tags.join(', ') }}</p>
-          <p>Metacritic: {{ game.metacriticScore }}</p>
-          <p>Tiempo de juego: {{ game.playtime }} horas</p>
-          <p v-if="game.completed && game.finalScore !== null">Puntuación final: {{ game.finalScore }}/10</p>
-          <p v-if="game.completed">Completado el ({{ formatDate(game.completionDate) }})</p>
-          <router-link :to="`/edit-game/${game.id}`" class="button">Editar</router-link>
-          <button @click="toggleGameCompletion(game.id)" class="button">
-            {{ game.completed ? 'Marcar como incompleto' : 'Marcar como completado' }}
-          </button>
-        </div>
+              <h3>{{ game.name }}</h3>
+              <p>Categoria: {{ game.category }}</p>
+              <p v-if="game.tags && game.tags.length > 0">Etiquetas: {{ game.tags.join(', ') }}</p>
+              <p>Metacritic: {{ game.metacriticScore }}</p>
+              <p>Tiempo de juego: {{ game.playtime }} horas</p>
+              <p v-if="game.completed && game.finalScore !== null">Puntuación final: {{ game.finalScore }}/10</p>
+              <p v-if="game.completed">Completado el ({{ formatDate(game.completionDate) }})</p>
+              <router-link :to="`/edit-game/${game.id}`" class="button">Editar</router-link>
+              <button @click="toggleGameCompletion(game.id)" class="button">
+                {{ game.completed ? 'Marcar como incompleto' : 'Marcar como completado' }}
+              </button>
+            </div>
           </li>
         </ul>
       </div>
 
       <div class="column">
         <h2 class="centered">Completados</h2>
-        <ul>
+        <ul class="">
           <li v-for="game in completedGames" :key="game.id">
             <div>
-          <h3>{{ game.name }}</h3>
-          <p>Categoria: {{ game.category }}</p>
-          <p v-if="game.tags && game.tags.length > 0">Etiquetas: {{ game.tags.join(', ') }}</p>
-          <p>Metacritic: {{ game.metacriticScore }}</p>
-          <p>Tiempo de juego: {{ game.playtime }} horas</p>
-          <p v-if="game.completed && game.finalScore !== null">Puntuación final: {{ game.finalScore }}/10</p>
-          <p v-if="game.completed">Completado el ({{ formatDate(game.completionDate) }})</p>
-          <router-link :to="`/edit-game/${game.id}`" class="button">Editar</router-link>
-          <button @click="toggleGameCompletion(game.id)" class="button">
-            {{ game.completed ? 'Marcar como incompleto' : 'Marcar como completado' }}
-          </button>
-        </div>
+              <h3>{{ game.name }}</h3>
+              <p>Categoria: {{ game.category }}</p>
+              <p v-if="game.tags && game.tags.length > 0">Etiquetas: {{ game.tags.join(', ') }}</p>
+              <p>Metacritic: {{ game.metacriticScore }}</p>
+              <p>Tiempo de juego: {{ game.playtime }} horas</p>
+              <p v-if="game.completed && game.finalScore !== null">Puntuación final: {{ game.finalScore }}/10</p>
+              <p v-if="game.completed">Completado el ({{ formatDate(game.completionDate) }})</p>
+              <router-link :to="`/edit-game/${game.id}`" class="button">Editar</router-link>
+              <button @click="toggleGameCompletion(game.id)" class="button">
+                {{ game.completed ? 'Marcar como incompleto' : 'Marcar como completado' }}
+              </button>
+            </div>
           </li>
         </ul>
       </div>
@@ -123,7 +123,7 @@ onMounted(loadGames)
   </div>
 </template>
 
-<style>
+<style scoped>
 .game-list-page {
   font-family: 'Pixelify sans';
   color: #D7D2D4;
@@ -134,7 +134,7 @@ onMounted(loadGames)
 
 .game-list-page ul {
   list-style: none;
-  padding: 0;
+  padding: 20px;
 }
 
 .game-list-page li {
@@ -146,7 +146,12 @@ onMounted(loadGames)
   box-sizing: border-box;
 }
 
+h2 {
+  font-size: 2rem;
+}
+
 .game-list-page li h3 {
+  font-size: 1.5rem;
   color: #D42829;
 }
 
@@ -163,10 +168,9 @@ onMounted(loadGames)
 
 .column {
   flex: 1;
-  min-width: 300px; /* permite que se apilen cuando no hay espacio */
+  min-width: 300px;
 }
 
-/* Diseño apilado en pantallas pequeñas */
 @media (max-width: 768px) {
   .columns {
     flex-direction: column;
@@ -182,6 +186,7 @@ onMounted(loadGames)
   text-decoration: none;
   border-radius: 5px;
   font-size: 16px;
+  margin-right: 10px;
 }
 
 .button:hover {
