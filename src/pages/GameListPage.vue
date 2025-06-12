@@ -117,9 +117,10 @@ onMounted(loadGames)
         </ul>
       </div>
     </div>
-
-    <router-link to="/create-game" class="button">Crear Nuevo Juego</router-link>
-    <router-link to="/" class="button">Volver al Inicio</router-link>
+    <div class="centered">
+      <router-link to="/create-game" class="button">Añadir Nuevo Juego</router-link>
+      <router-link to="/" class="button">Volver al Inicio</router-link>
+    </div>
   </div>
 </template>
 
@@ -128,13 +129,13 @@ onMounted(loadGames)
   font-family: 'Pixelify sans';
   color: #D7D2D4;
   background-color: #3C4453;
-  padding: 20px;
   border-radius: 10px;
 }
 
 .game-list-page ul {
   list-style: none;
   padding: 20px;
+  margin: 0px;
 }
 
 .game-list-page li {
@@ -153,10 +154,8 @@ h2 {
 .game-list-page li h3 {
   font-size: 1.5rem;
   color: #D42829;
-}
-
-.centered {
-  text-align: center;
+  margin-block-start: 0.5em;
+  margin-block-end: 0.5em;
 }
 
 .columns {
@@ -177,19 +176,11 @@ h2 {
   }
 }
 
-.button {
-  font-family: 'Pixelify sans';
-  display: inline-block;
-  background-color: #D42829;
-  color: #D7D2D4;
-  padding: 10px 20px;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 16px;
-  margin-right: 10px;
+.logo {
+  height: 7rem;
+  vertical-align: middle;
+  margin: 10px;
 }
 
-.button:hover {
-  background-color: #838B93;
-}
+
 </style>

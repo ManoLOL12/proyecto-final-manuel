@@ -89,9 +89,29 @@ li span {
   margin-top: 5px;
 }
 
+.button {
+  font-family: 'Pixelify sans';
+  display: inline-block;
+  background-color: #D42829;
+  color: #D7D2D4;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.button:hover {
+  background-color: #838B93;
+}
+
 ::placeholder {
   font-family: 'Pixelify Sans';
   color: #D7D2D4;
   opacity: 1; 
+}
+
+.centered {
+  text-align: center;
 }
 </style>

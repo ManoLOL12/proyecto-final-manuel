@@ -106,15 +106,12 @@ async function handleDelete() {
         <label>Puntuación final:</label>
         <input v-model.number="game.finalScore" type="number" min="0" max="10" placeholder="Valoración del 0 al 10" required />
       </div>
-      <button type="submit" class="button">{{ isEditMode ? 'Actualizar Juego' : 'Crear Juego' }}</button>
+      <div class="centered">      
+        <button type="submit" class="button">{{ isEditMode ? 'Actualizar Juego' : 'Crear Juego' }}</button>
+        <button v-if="isEditMode" @click="handleDelete" class="button">Eliminar Juego</button>
+        <router-link to="/games" class="button">Volver</router-link>
+      </div>
     </form>
-
-    <div v-if="isEditMode">
-      <button @click="handleDelete" class="button">Eliminar Juego</button>
-    </div>
-
-    <router-link to="/games" class="button">Volver</router-link>
-
   </div>
 </template>
 
@@ -137,19 +134,5 @@ input {
   border: 1px solid #767679;
   border-radius: 5px;
   font-size: 16px;
-}
-
-.button {
-  display: inline-block;
-  background-color: #D42829;
-  color: #D7D2D4;
-  padding: 10px 20px;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 16px;
-}
-
-.button:hover {
-  background-color: #838B93;
 }
 </style>
