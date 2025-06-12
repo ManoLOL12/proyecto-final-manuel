@@ -3,7 +3,7 @@
 
 <template>
   <div class="home-page">
-    <h1>Bienvenido a Game Ender</h1>
+    <h1>Bienvenido a Game <img class="logo" src="../assets/Game_Ender.svg" alt="Icono de Game Ender, una bomba a punto de explotar blanca sobre un circulo rojo"> Ender</h1>
     <h2>Vamos a acabar con esos juegos de una vez</h2>
     <p>Esta aplicación te permite gestionar y llevar un seguimiento de los videojuegos que has jugado, agregar nuevos juegos, editarlos y marcarlos como completados.</p>
     <router-link to="/games" class="button">Ver lista de juegos</router-link>
@@ -34,6 +34,11 @@
 
 .home-page p {
   font-size: 1.2rem;
+}
+
+.logo {
+  height: 10rem;
+  vertical-align: middle;
 }
 
 .button {

@@ -1,9 +1,21 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { supabase } from '@/lib/supabase'
 
 const games = ref([])
 const loading = ref(true)
+
+const completedGames = computed(() =>
+  games.value
+    .filter(g => g.completed)
+    .sort((a, b) => (b.finalScore || 0) - (a.finalScore || 0))
+)
+
+const pendingGames = computed(() =>
+  games.value
+    .filter(g => !g.completed)
+    .sort((a, b) => (b.secretScore || 0) - (a.secretScore || 0))
+)
 
 async function loadGames() {
   loading.value = true
@@ -61,13 +73,17 @@ onMounted(loadGames)
 <template>
   <div class="game-list-page">
     <h1>Tu Lista de Videojuegos</h1>
-    <ul>
-    <li v-for="game in games" :key="game.id"> 
-        <div>
-          <h2>{{ game.name }}</h2>
+
+    <div class="columns">
+      <div class="column">
+        <h2 class="centered">Por Completar</h2>
+        <ul>
+          <li v-for="game in pendingGames" :key="game.id">
+            <div>
+          <h3>{{ game.name }}</h3>
           <p>Categoria: {{ game.category }}</p>
           <p v-if="game.tags && game.tags.length > 0">Etiquetas: {{ game.tags.join(', ') }}</p>
-          <p>Puntuación: {{ game.metacriticScore }}</p>
+          <p>Metacritic: {{ game.metacriticScore }}</p>
           <p>Tiempo de juego: {{ game.playtime }} horas</p>
           <p v-if="game.completed && game.finalScore !== null">Puntuación final: {{ game.finalScore }}/10</p>
           <p v-if="game.completed">Completado el ({{ formatDate(game.completionDate) }})</p>
@@ -76,8 +92,32 @@ onMounted(loadGames)
             {{ game.completed ? 'Marcar como incompleto' : 'Marcar como completado' }}
           </button>
         </div>
-      </li>
-    </ul>
+          </li>
+        </ul>
+      </div>
+
+      <div class="column">
+        <h2 class="centered">Completados</h2>
+        <ul>
+          <li v-for="game in completedGames" :key="game.id">
+            <div>
+          <h3>{{ game.name }}</h3>
+          <p>Categoria: {{ game.category }}</p>
+          <p v-if="game.tags && game.tags.length > 0">Etiquetas: {{ game.tags.join(', ') }}</p>
+          <p>Metacritic: {{ game.metacriticScore }}</p>
+          <p>Tiempo de juego: {{ game.playtime }} horas</p>
+          <p v-if="game.completed && game.finalScore !== null">Puntuación final: {{ game.finalScore }}/10</p>
+          <p v-if="game.completed">Completado el ({{ formatDate(game.completionDate) }})</p>
+          <router-link :to="`/edit-game/${game.id}`" class="button">Editar</router-link>
+          <button @click="toggleGameCompletion(game.id)" class="button">
+            {{ game.completed ? 'Marcar como incompleto' : 'Marcar como completado' }}
+          </button>
+        </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
     <router-link to="/create-game" class="button">Crear Nuevo Juego</router-link>
     <router-link to="/" class="button">Volver al Inicio</router-link>
   </div>
@@ -102,10 +142,35 @@ onMounted(loadGames)
   margin-bottom: 15px;
   padding: 15px;
   border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.game-list-page li h2 {
+.game-list-page li h3 {
   color: #D42829;
+}
+
+.centered {
+  text-align: center;
+}
+
+.columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.column {
+  flex: 1;
+  min-width: 300px; /* permite que se apilen cuando no hay espacio */
+}
+
+/* Diseño apilado en pantallas pequeñas */
+@media (max-width: 768px) {
+  .columns {
+    flex-direction: column;
+  }
 }
 
 .button {
