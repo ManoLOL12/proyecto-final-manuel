@@ -151,7 +151,6 @@ async function handleDelete() {
 }
 
 input {
-  max-width: 75%;
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #767679;

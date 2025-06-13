@@ -13,6 +13,28 @@
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
 
+@media (max-width: 768px) {
+  .logo {
+      height: 1em;
+      vertical-align: middle;
+  }
+  .home-page h1 {
+  font-size: 2rem;
+  color: #D7D2D4;
+}
+}
+
+@media (min-width: 769px) {
+  .logo {
+      height: 3em;
+      vertical-align: middle;
+  }
+  .home-page h1 {
+  font-size: 3rem;
+  color: #D7D2D4;
+}
+}
+
 .home-page {
   text-align: center;
   font-family: 'Pixelify sans';
@@ -22,10 +44,7 @@
   border-radius: 10px;
 }
 
-.home-page h1 {
-  font-size: 3rem;
-  color: #D7D2D4;
-}
+
 
 .home-page h2 {
   font-size: 2rem;
@@ -36,10 +55,6 @@
   font-size: 1.2rem;
 }
 
-.logo {
-  height: 8rem;
-  vertical-align: middle;
-}
 
 .button {
   display: inline-block;

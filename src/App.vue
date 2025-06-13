@@ -53,7 +53,8 @@ form input {
   padding: 8px 10px;
   margin: 10px 0;
   border-radius: 5px;
-  width: 100%;
+  width: 50%;
+  max-width: 100%;
 }
 
 ul {

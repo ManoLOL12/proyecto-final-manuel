@@ -189,10 +189,11 @@ h2 {
 }
 
 .logo {
-  height: 1%;
+  width: 2em;
   max-width: 10%;
+  min-width:5%;
   vertical-align: middle;
-  margin: 10px;
+  margin: 15px;
 }
 
 
