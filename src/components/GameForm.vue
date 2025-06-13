@@ -49,12 +49,6 @@ onMounted(async () => {
   }
 })
 
-function handleCompletionChange() {
-  game.value.completionDate = game.value.completed
-    ? new Date().toLocaleDateString('es-ES')
-    : ''
-}
-
 async function handleSubmit() {
   game.value.tags = tagInput.value.split(',').map(tag => tag.trim()).filter(Boolean)
   game.value.secretScore = game.value.metacriticScore / game.value.playtime
