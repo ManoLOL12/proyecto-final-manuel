@@ -72,7 +72,7 @@ onMounted(loadGames)
 
 <template>
   <div class="game-list-page">
-    <h1>Tu Lista de Videojuegos</h1>
+    <h1><img class="logo" src="../assets/Game_Ender.svg" alt="Icono de Game Ender, una bomba a punto de explotar blanca sobre un circulo rojo">Tu Lista de Videojuegos<img class="logo" src="../assets/Game_Ender.svg" alt="Icono de Game Ender, una bomba a punto de explotar blanca sobre un circulo rojo"></h1>
 
     <div class="columns">
       <div class="column">
@@ -189,7 +189,8 @@ h2 {
 }
 
 .logo {
-  height: 7rem;
+  height: 1%;
+  max-width: 10%;
   vertical-align: middle;
   margin: 10px;
 }
