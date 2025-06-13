@@ -108,7 +108,7 @@ async function handleDelete() {
       <div>      
         <label>Puntuación en Metacritic</label>
         <div>
-          <input v-model="game.metacriticScore" type="number" min="0" max="100" placeholder="Puntuación de Metacritic" required />
+          <input v-model="game.metacriticScore" type="number" min="0" max="10" placeholder="Puntuación de Metacritic" required />
         </div>
       </div>
       <div>      
